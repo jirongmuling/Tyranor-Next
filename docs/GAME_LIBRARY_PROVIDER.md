@@ -42,7 +42,9 @@
 | 列 | 类型 | 说明 |
 |---|---|---|
 | `uri` | String | 游戏目录 SAF URI（**主键**） |
-| `root_uri` | String? | 所属扫描根 |
+| `path` | String? | 游戏目录**真实文件路径**，可直接 `File()` 访问 |
+| `root_uri` | String? | 所属扫描根 URI |
+| `root_path` | String? | 所属扫描根真实路径 |
 | `title` | String | 标题 |
 | `engine` | String | `KIRIKIRI` / `ONS` / `TYRANO` … |
 | `engine_display` | String | 显示名，如 `Kirikiri` |
@@ -58,7 +60,7 @@
 
 ### roots 列
 
-`uri`、`display_name`、`added_at`、`last_scanned_at`
+`uri`、`root_path`、`display_name`、`added_at`、`last_scanned_at`
 
 ## 调用示例
 
@@ -70,23 +72,23 @@ val authority = "$tyranorPkg.gamelibrary"
 val uri = Uri.parse("content://$authority/games/krkr")
 val cursor = contentResolver.query(
     uri,
-    arrayOf("uri", "title", "launch_target", "cover_uri"),
+    arrayOf("path", "title", "launch_target", "cover_uri"),
     null, null, null,
 )
 cursor?.use {
     while (it.moveToNext()) {
-        val dirUri = it.getString(0)
+        val dirPath = it.getString(0)   // e.g. /storage/emulated/0/Games/xxx
         val title = it.getString(1)
-        // 用 DocumentFile.fromTreeUri() 拿目录，用于读取游戏文件
+        val files = File(dirPath).listFiles()   // 直接读，无需 SAF 授权
     }
 }
 ```
 
 ## 注意事项
 
-1. **游戏目录访问**：返回的 `uri` 是 SAF URI。调用方要读目录内容，需对该 URI 有读权限。
-   Tyranor 已持有授权，但**跨应用不会自动共享**，Tyn Packager 首次使用时应让用户重新选择该目录
-   （`ACTION_OPEN_DOCUMENT_TREE`），或后续版本增加临时授权（`FLAG_GRANT_READ_URI_PERMISSION`）。
+1. **目录访问**：优先使用 `path` 列（真实路径）。Tyn Packager 声明
+   `MANAGE_EXTERNAL_STORAGE`（所有文件访问权限）即可直接 `File()` 读取，
+   **不需要**再为 SAF URI 申请目录授权。`path` 为 null 时才需要回退到 `uri` + SAF。
 2. **引擎范围**：当前直装包只支持 Kirikiri，故 `games/krkr` 为预过滤视图。
 3. **版本协商**：`call("version")` 返回 `Bundle.version`，不兼容变更时递增；
    `call("capabilities")` 返回可用引擎与路径清单。

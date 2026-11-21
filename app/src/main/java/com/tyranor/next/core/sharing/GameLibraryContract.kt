@@ -75,6 +75,20 @@ object GameLibraryContract {
     /** 游戏目录的 SAF tree/document URI 字符串。 */
     const val COL_URI = "uri"
 
+    /**
+     * 游戏目录的**真实文件路径**（如 `/storage/emulated/0/Games/xxx`）。
+     *
+     * 由 [com.tyranor.next.core.game.model.GamePathUtils.safUriToPath] 从 [COL_URI] 换算；
+     * 无法换算（非主存储卷、URI 异常）时为 null。
+     *
+     * 调用方持有 `MANAGE_EXTERNAL_STORAGE`（所有文件访问权限）时，应直接使用本列读文件，
+     * 不必处理 SAF 授权；否则才需要走 [COL_URI] 并自行申请目录访问权限。
+     */
+    const val COL_PATH = "path"
+
+    /** 所属扫描根的真实文件路径；换算失败为 null。 */
+    const val COL_ROOT_PATH = "root_path"
+
     /** 所属扫描根 URI；可能为 null（历史数据）。 */
     const val COL_ROOT_URI = "root_uri"
 
@@ -113,6 +127,7 @@ object GameLibraryContract {
 
     // ==================== 扫描根列名 ====================
 
+    /** 扫描根展示名；null 表示未缓存，调用方可从路径末段推导。 */
     const val COL_DISPLAY_NAME = "display_name"
 
     const val COL_ADDED_AT = "added_at"

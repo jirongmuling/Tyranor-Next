@@ -8,6 +8,7 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.os.Bundle
 import com.tyranor.next.core.engine.EngineType
+import com.tyranor.next.core.game.model.GamePathUtils
 import com.tyranor.next.core.game.storage.GameEntity
 import com.tyranor.next.core.game.storage.GameLibraryDatabase
 import com.tyranor.next.core.game.storage.ScanRootEntity
@@ -87,7 +88,9 @@ class GameLibraryProvider : ContentProvider() {
             cursor.addRow(
                 arrayOf<Any?>(
                     g.uri,
+                    GamePathUtils.safUriToPath(g.uri),
                     g.rootUri,
+                    GamePathUtils.safUriToPath(g.rootUri),
                     g.title,
                     g.engine,
                     runCatching { EngineType.valueOf(g.engine).displayName }.getOrDefault(g.engine),
@@ -118,6 +121,7 @@ class GameLibraryProvider : ContentProvider() {
             cursor.addRow(
                 arrayOf<Any?>(
                     r.uri,
+                    GamePathUtils.safUriToPath(r.uri),
                     r.displayName,
                     r.addedAt,
                     r.lastScannedAt,
@@ -177,7 +181,9 @@ class GameLibraryProvider : ContentProvider() {
 
         private val GAME_COLUMNS = arrayOf(
             GameLibraryContract.COL_URI,
+            GameLibraryContract.COL_PATH,
             GameLibraryContract.COL_ROOT_URI,
+            GameLibraryContract.COL_ROOT_PATH,
             GameLibraryContract.COL_TITLE,
             GameLibraryContract.COL_ENGINE,
             GameLibraryContract.COL_ENGINE_DISPLAY,
@@ -194,6 +200,7 @@ class GameLibraryProvider : ContentProvider() {
 
         private val ROOT_COLUMNS = arrayOf(
             GameLibraryContract.COL_URI,
+            GameLibraryContract.COL_ROOT_PATH,
             GameLibraryContract.COL_DISPLAY_NAME,
             GameLibraryContract.COL_ADDED_AT,
             GameLibraryContract.COL_LAST_SCANNED_AT,
