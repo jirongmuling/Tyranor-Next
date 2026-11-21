@@ -108,6 +108,20 @@
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/Theme.TyranorNext.Translucent" />
+        <!-- 直装包启动入口：按路径直接拉起游戏，不查库、不写库。
+             exported=true 供直装包（不同包名）跨应用显式启动；入口自身校验路径合法性。 -->
+        <activity
+            android:name=".ui.game.InstallerLaunchActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.TyranorNext.Translucent">
+            <intent-filter>
+                <action android:name="com.tyranor.next.action.LAUNCH_GAME_BY_PATH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.patch.KrkrOnlinePatchActivity"
             android:exported="false"
