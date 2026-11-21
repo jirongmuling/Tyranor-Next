@@ -10,6 +10,14 @@
     <!-- 应用内下载更新后调起系统安装器所需（canRequestPackageInstalls 判断依据） -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!-- 游戏库只读共享：normal 级，安装即授予，供外部工具（Tyn Packager）读取。
+         权限名随 applicationId 拼接，与 Provider authority 保持同一前缀。 -->
+    <permission
+        android:name="${applicationId}.permission.READ_GAME_LIBRARY"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:protectionLevel="normal" />
+
     <queries>
         <package android:name="cyou.joiplay.runtime.rpgmaker" />
         <package android:name="cyou.joiplay.runtime.renpy.v8d4d1" />
@@ -72,6 +80,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- 游戏库只读共享（对外导出，仅 query；写操作一律拒绝）。
+             不做签名校验，任何应用声明 READ_GAME_LIBRARY 即可读取。 -->
+        <provider
+            android:name=".core.sharing.GameLibraryProvider"
+            android:authorities="${applicationId}.gamelibrary"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="${applicationId}.permission.READ_GAME_LIBRARY" />
 
         <activity
             android:name=".ui.archive.ArchiveUnpackActivity"
