@@ -1360,4 +1360,17 @@
     <string name="engine_settings_systemnnn_layout_ext_none">なし</string>
     <string name="engine_settings_systemnnn_layout_ext_unknown">解析失敗</string>
     <string name="engine_settings_systemnnn_layout_ext_hint">EXT が必要なゲームは開始番号を確定するまで起動できません。下のボタンで解析し、設定を再生成してください。</string>
+
+    <!-- インストーラー起動エントリ -->
+    <string name="installer_unpacking">ゲームデータを展開しています。しばらくお待ちください…</string>
+    <string name="installer_unpack_failed">ゲームデータの展開に失敗しました。空き容量を確認して再試行してください。</string>
+    <string name="installer_launch_failed_reason">起動に失敗しました：%1$s</string>
+    <string name="installer_missing_path">ゲームのパスが指定されていません</string>
+    <string name="installer_engine_unsupported">未対応のエンジンです：%1$s</string>
+    <string name="installer_dir_unavailable">ゲームフォルダにアクセスできません：%1$s</string>
+    <string name="installer_err_game_dir">ゲームフォルダを解決できません</string>
+    <string name="installer_err_all_files">ファイルアクセス権限が必要です</string>
+    <string name="installer_err_storage">ストレージ権限が必要です</string>
+    <string name="installer_err_plugin">エンジンコンポーネントの読み込みに失敗しました</string>
+    <string name="installer_err_runtime_pack">エンジンランタイムの展開に失敗しました</string>
 </resources>

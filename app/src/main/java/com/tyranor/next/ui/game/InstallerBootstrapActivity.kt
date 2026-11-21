@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.tyranor.next.MainActivity
+import com.tyranor.next.R
 import com.tyranor.next.core.engine.EngineType
 import com.tyranor.next.core.game.launch.EngineLauncher
 import com.tyranor.next.core.game.launch.LaunchResult
@@ -77,7 +78,7 @@ class InstallerBootstrapActivity : ComponentActivity() {
             return
         }
 
-        Toast.makeText(this, "正在解包游戏资源，请稍候…", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.installer_unpacking, Toast.LENGTH_SHORT).show()
 
         scope.launch {
             val ok = withContext(Dispatchers.IO) { unpack(info, targetDir, marker) }
@@ -86,7 +87,7 @@ class InstallerBootstrapActivity : ComponentActivity() {
             } else {
                 Toast.makeText(
                     this@InstallerBootstrapActivity,
-                    "游戏资源解包失败，请检查存储空间后重试",
+                    R.string.installer_unpack_failed,
                     Toast.LENGTH_LONG,
                 ).show()
                 finish()
@@ -142,7 +143,7 @@ class InstallerBootstrapActivity : ComponentActivity() {
             } catch (e: Exception) {
                 Toast.makeText(
                     this@InstallerBootstrapActivity,
-                    "启动失败：${e.message}",
+                    getString(R.string.installer_launch_failed_reason, e.message.orEmpty()),
                     Toast.LENGTH_LONG,
                 ).show()
                 finish()
@@ -155,7 +156,10 @@ class InstallerBootstrapActivity : ComponentActivity() {
                 else -> {
                     Toast.makeText(
                         this@InstallerBootstrapActivity,
-                        "启动失败：${result.javaClass.simpleName}",
+                        getString(
+                            R.string.installer_launch_failed_reason,
+                            result.javaClass.simpleName,
+                        ),
                         Toast.LENGTH_LONG,
                     ).show()
                     finish()

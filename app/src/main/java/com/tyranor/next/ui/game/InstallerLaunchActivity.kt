@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import com.tyranor.next.R
 import com.tyranor.next.core.engine.EngineType
 import com.tyranor.next.core.game.launch.EngineLauncher
 import com.tyranor.next.core.game.launch.LaunchResult
@@ -49,20 +50,20 @@ class InstallerLaunchActivity : ComponentActivity() {
     private fun handleIntent(intent: Intent?) {
         val path = intent?.getStringExtra(InstallerLaunchContract.EXTRA_GAME_PATH)
         if (path.isNullOrBlank()) {
-            failAndFinish("缺少游戏路径参数")
+            failAndFinish(getString(R.string.installer_missing_path))
             return
         }
 
         val engineName = intent.getStringExtra(InstallerLaunchContract.EXTRA_ENGINE)
             ?: EngineType.KIRIKIRI.name
         if (engineName !in InstallerLaunchContract.SUPPORTED_ENGINES) {
-            failAndFinish("暂不支持的引擎：$engineName")
+            failAndFinish(getString(R.string.installer_engine_unsupported, engineName))
             return
         }
 
         val dir = resolveDir(path)
         if (dir == null) {
-            failAndFinish("游戏目录不可访问：$path")
+            failAndFinish(getString(R.string.installer_dir_unavailable, path))
             return
         }
 
@@ -119,12 +120,17 @@ class InstallerLaunchActivity : ComponentActivity() {
     }
 
     private fun describeFailure(result: LaunchResult): String = when (result) {
-        is LaunchResult.Failure.GameDirUnresolved -> "无法解析游戏目录"
-        is LaunchResult.Failure.AllFilesAccessMissing -> "缺少文件访问权限，请在系统中授权"
-        is LaunchResult.Failure.StorageAccessMissing -> "缺少存储权限"
-        is LaunchResult.Failure.PluginBootstrapFailed -> "引擎组件加载失败"
-        is LaunchResult.Failure.EngineLibraryPackFailed -> "引擎运行库解压失败"
-        else -> "启动失败：${result.javaClass.simpleName}"
+        is LaunchResult.Failure.GameDirUnresolved -> getString(R.string.installer_err_game_dir)
+        is LaunchResult.Failure.AllFilesAccessMissing ->
+            getString(R.string.installer_err_all_files)
+        is LaunchResult.Failure.StorageAccessMissing -> getString(R.string.installer_err_storage)
+        is LaunchResult.Failure.PluginBootstrapFailed -> getString(R.string.installer_err_plugin)
+        is LaunchResult.Failure.EngineLibraryPackFailed ->
+            getString(R.string.installer_err_runtime_pack)
+        else -> getString(
+            R.string.installer_launch_failed_reason,
+            result.javaClass.simpleName,
+        )
     }
 
     private fun failAndFinish(message: String) {

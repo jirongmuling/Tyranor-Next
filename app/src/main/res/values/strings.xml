@@ -1360,4 +1360,17 @@
     <string name="settings_background_image_clear">清除背景图</string>
     <string name="settings_background_image_take_failed">无法保留图片访问权限，请重新选择</string>
     <string name="settings_background_image_save_failed">保存背景图设置失败，请重试</string>
+
+    <!-- 直装包启动入口 -->
+    <string name="installer_unpacking">正在解包游戏资源，请稍候…</string>
+    <string name="installer_unpack_failed">游戏资源解包失败，请检查存储空间后重试</string>
+    <string name="installer_launch_failed_reason">启动失败：%1$s</string>
+    <string name="installer_missing_path">缺少游戏路径参数</string>
+    <string name="installer_engine_unsupported">暂不支持的引擎：%1$s</string>
+    <string name="installer_dir_unavailable">游戏目录不可访问：%1$s</string>
+    <string name="installer_err_game_dir">无法解析游戏目录</string>
+    <string name="installer_err_all_files">缺少文件访问权限，请在系统中授权</string>
+    <string name="installer_err_storage">缺少存储权限</string>
+    <string name="installer_err_plugin">引擎组件加载失败</string>
+    <string name="installer_err_runtime_pack">引擎运行库解压失败</string>
 </resources>

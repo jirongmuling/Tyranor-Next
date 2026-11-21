@@ -1360,4 +1360,17 @@
     <string name="engine_settings_systemnnn_layout_ext_none">None</string>
     <string name="engine_settings_systemnnn_layout_ext_unknown">Analysis failed</string>
     <string name="engine_settings_systemnnn_layout_ext_hint">Games requiring EXT blocks need a resolved starting code to launch. Use the button below to analyze and regenerate the configuration.</string>
+
+    <!-- Installer launch entry -->
+    <string name="installer_unpacking">Preparing game files, please wait…</string>
+    <string name="installer_unpack_failed">Failed to unpack game files. Check free storage and retry.</string>
+    <string name="installer_launch_failed_reason">Failed to launch: %1$s</string>
+    <string name="installer_missing_path">Missing game path</string>
+    <string name="installer_engine_unsupported">Unsupported engine: %1$s</string>
+    <string name="installer_dir_unavailable">Game folder not accessible: %1$s</string>
+    <string name="installer_err_game_dir">Cannot resolve game folder</string>
+    <string name="installer_err_all_files">File access permission required</string>
+    <string name="installer_err_storage">Storage permission required</string>
+    <string name="installer_err_plugin">Failed to load engine components</string>
+    <string name="installer_err_runtime_pack">Failed to extract engine runtime</string>
 </resources>
